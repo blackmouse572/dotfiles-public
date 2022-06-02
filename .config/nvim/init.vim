@@ -3,12 +3,18 @@
 
 " init autocmd
 autocmd!
+" Start NERDTree and put the cursor back in the other window.
+autocmd VimEnter * NERDTree | wincmd p
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
 " set script encoding
 scriptencoding utf-8
 " stop loading config if it's on tiny or small
 if !1 | finish | endif
-
 set nocompatible
+set hidden
 set number
 syntax enable
 set fileencodings=utf-8,sjis,euc-jp,latin
@@ -17,21 +23,34 @@ set title
 set autoindent
 set background=dark
 set nobackup
+set nowritebackup
+
 set hlsearch
 set showcmd
-set cmdheight=1
+set cmdheight=2
 set laststatus=2
 set scrolloff=10
 set expandtab
-"let loaded_matchparen = 1
-set shell=fish
-set backupskip=/tmp/*,/private/tmp/*
+
+set updatetime=3000
+set shortmess+=c
 
 " incremental substitution (neovim)
 if has('nvim')
   set inccommand=split
+  set signcolumn=number
 endif
 
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ CheckBackspace() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 " Suppress appending <PasteStart> and <PasteEnd> when pasting
 set t_BE=
 
@@ -63,6 +82,8 @@ autocmd InsertLeave * set nopaste
 " Add asterisks in block comments
 set formatoptions+=r
 
+"Coc config
+let g:coc_global_extension = [ 'coc-tsserver' ]
 "}}}
 
 " Highlights "{{{

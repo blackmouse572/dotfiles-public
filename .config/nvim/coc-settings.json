@@ -1,0 +1,15 @@
+{
+  "eslint.autoFixOnSave": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "json",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "javascript.suggest.autoImports": true,
+  "typescript.suggest.autoImports": true,
+  "tsserver.formatOnType": true,
+  "coc.preferences.snippetHighlight": true,
+  "coc.preferences.formatOnType": true
+}
